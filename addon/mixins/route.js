@@ -20,8 +20,24 @@ export default Mixin.create({
         size: params.size
       }
     };
-    // TODO: sending an empty filter param to backend returns []
-    if (params.filter) { options['filter'] = params.filter; }
+    let controller = this.controllerFor(this.routeName);
+    let { filterFields, filterValuePrefix } = controller.getProperties(
+      'filterFields',
+      'filterValuePrefix'
+    );
+
+    if (params.filter) {
+      if (filterFields && filterFields.length > 0) {
+        filterValuePrefix = filterValuePrefix ? filterValuePrefix : '';
+        let filterValue = `${filterValuePrefix}${params.filter}`;
+
+        filterFields.forEach(field => {
+          options[`filter[${field}]`] = filterValue;
+        });
+      } else {
+        options['filter'] = params.filter;
+      }
+    }
     $.extend(options, this.mergeQueryOptions(params));
     return this.get('store').query(this.get('modelName'), options);
   },

@@ -9,8 +9,7 @@ import layout from '../templates/components/data-table';
 export default Component.extend({
   init() {
     this._super(...arguments);
-    if( this.get('selection') === undefined )
-      this.set('selection', []);
+    if (this.get('selection') === undefined) this.set('selection', []);
   },
   layout,
   noDataMessage: 'No data',
@@ -41,14 +40,14 @@ export default Component.extend({
   }),
   autoSearch: true,
   filterChanged: observer('filter', function() {
-    this.set('page', 0);
+    this.set('page', 1);
   }),
   sizeChanged: observer('size', function() {
-    this.set('page', 0);
+    this.set('page', 1);
   }),
   parsedFields: computed('fields', function() {
     const fields = this.get('fields');
-    if( typeOf( fields ) === 'string' ) {
+    if (typeOf(fields) === 'string') {
       return fields.split(' ');
     } else {
       return fields || [];

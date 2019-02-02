@@ -8,9 +8,11 @@ import layout from '../templates/components/text-search';
 export default Component.extend({
   layout,
   filter: '',
-  classNames: ["data-table-search"],
+  filterFields: null,
+  filterValuePrefix: '',
+  classNames: ['data-table-search'],
   internalValue: oneWay('filter'),
-  wait: 2000,
+  wait: 500,
   auto: true,
   placeholder: 'Search',
   init() {
@@ -22,7 +24,11 @@ export default Component.extend({
   }),
   onFilterChange: observer('filter', function() {
     // update value if filter is update manually outsite this component
-    if (!this.isDestroying && !this.isDestroyed && !isEqual(this.get('filter'), this.get('value'))) {
+    if (
+      !this.isDestroying &&
+      !this.isDestroyed &&
+      !isEqual(this.get('filter'), this.get('value'))
+    ) {
       this.set('value', this.get('filter'));
     }
   }),
